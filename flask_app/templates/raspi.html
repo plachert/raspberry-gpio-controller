@@ -31,15 +31,12 @@
         </tr>
         {% endfor %}
     </table>
-      <!-- <label class="switch">
-        <input type="checkbox" id="pin3">
-        <span class="slider round"></span>
-      </label> -->
     </body>
 
     <script>
 
         var logger = '';
+        var checkboxes = document.getElementsByTagName("input");
 
         function fetchdata()
         {
@@ -48,10 +45,12 @@
                 type: "GET",
                 url: '{{url_for('background_process')}}',
                 data: {
-                    'pin3': ($('#3').is(":checked"))
+                    'checkboxes': checkboxes
+                    // 'pin3': ($('#3').is(":checked"))
                 },
                 success: function(data){
-                    logger = data.board_state
+                    console.log(checkboxes)
+                    // logger = data.board_state
                 }
             });
         }

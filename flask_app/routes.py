@@ -14,10 +14,11 @@ def raspi():
 
 @app.route("/background_process", methods=["POST", "GET"])
 def background_process():
-    state = request.args.get("pin3")
-    if state:
-        pinboard.turn_on(3)
-    else:
-        pinboard.turn_off(3)
-    board_state = pinboard.get_state()
-    return jsonify({"board_state": board_state})
+    # state = request.args.get("pin3")
+    # if state:
+    #     pinboard.turn_on(3)
+    # else:
+    #     pinboard.turn_off(3)
+    # board_state = pinboard.get_state()
+    print(request.args)
+    return jsonify({"board_state": "board_state"})
