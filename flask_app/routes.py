@@ -15,8 +15,8 @@ def raspi():
 @app.route("/background_process", methods=["POST", "GET"])
 def background_process():
     pin_id = int(request.args.get("pin_id"))
-    state = bool(request.args.get("state"))
-    if state:
+    state = request.args.get("state")
+    if state=="true":
         pinboard.turn_on(pin_id)
     else:
         pinboard.turn_off(pin_id)
