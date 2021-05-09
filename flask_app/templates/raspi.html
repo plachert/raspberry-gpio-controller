@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>RaspberryPi Controller</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <link href="{{ url_for('static', filename='css/raspi.css') }}" rel="stylesheet">
+    </head>
+
+    <body>
+    <table style="width:10%">
+        {% for key, value in pins_info.items() %}
+        <tr>
+            {% if value["is_valid"] %}
+            <th>{{ value["bcm_repr"] }}</th>
+            <th>
+                <label class="switch">
+                    <input type="checkbox" id={{key}} onClick="handleClick(this)">
+                    <span class="slider round"></span>
+                </label>
+            </th>
+            {% else %}
+            <th>{{ value["bcm_repr"] }}</th>
+            <th></th> 
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    </body>
+
+    <script>
+        function handleClick(input) {
+            $.getJSON({
+                type: "GET",
+                url: '{{url_for('background_process')}}',
+                data: {
+                    'pin_id': input.id,
+                    'state': input.checked
+                },
+                success: function(data){
+                    console.log(input.id, input.checked);
+                }
+            });
+        }
+    </script>
+    </html>
