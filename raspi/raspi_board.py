@@ -23,6 +23,13 @@ class PinBoard:
         for pin_number, pin in self.pins.items():
             if self.is_valid_gpio(pin_number):
                 GPIO.setup(pin_number, GPIO.OUT, initial=GPIO.LOW)
+
+    def get_pins_info(self):
+        info_dict = {}
+        for pin_number, pin in self.pins.items():
+            info_dict[pin_number] = {"bcm_repr": pin,
+                                     "is_valid": self.is_valid_gpio(pin_number)}
+        return info_dict
     
     def get_state(self):
         board_state = {}

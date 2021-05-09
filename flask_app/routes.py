@@ -9,15 +9,15 @@ def startup():
 
 @app.route("/")
 def raspi():
-    return render_template("raspi.html")
+    pins_info = pinboard.get_pins_info()
+    return render_template("raspi.html", title="Raspi", pins_info=pins_info)
 
 @app.route("/background_process", methods=["POST", "GET"])
 def background_process():
-    state = request.args.get("pin3")
+    pin_id = int(request.args.get("pin_id"))
+    state = bool(request.args.get("state"))
     if state:
-        pinboard.turn_on(3)
+        pinboard.turn_on(pin_id)
     else:
-        pinboard.turn_off(3)
-    board_state = pinboard.get_state()
-    print(state)
-    return jsonify({"board_state": board_state})
+        pinboard.turn_off(pin_id)
+    return jsonify({pin_id: state})

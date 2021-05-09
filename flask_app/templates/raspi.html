@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,104 +9,43 @@
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-        <style>
-          .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-          }
-
-          .switch input { 
-            opacity: 0;
-            width: 0;
-            height: 0;
-          }
-
-          .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            -webkit-transition: .4s;
-            transition: .4s;
-          }
-
-          .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            -webkit-transition: .4s;
-            transition: .4s;
-          }
-
-          input:checked + .slider {
-            background-color: #21f360;
-          }
-
-          input:focus + .slider {
-            box-shadow: 0 0 1px #2196F3;
-          }
-
-          input:checked + .slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
-          }
-
-          /* Rounded sliders */
-          .slider.round {
-            border-radius: 34px;
-          }
-
-          .slider.round:before {
-            border-radius: 50%;
-          }
-        </style>
+        <link href="{{ url_for('static', filename='css/raspi.css') }}" rel="stylesheet">
     </head>
+
     <body>
-      <label class="switch">
-        <input type="checkbox" id="pin3">
-        <span class="slider round"></span>
-      </label>
+    <table style="width:10%">
+        {% for key, value in pins_info.items() %}
+        <tr>
+            {% if value["is_valid"] %}
+            <th>{{ value["bcm_repr"] }}</th>
+            <th>
+                <label class="switch">
+                    <input type="checkbox" id={{key}} onClick="handleClick(this)">
+                    <span class="slider round"></span>
+                </label>
+            </th>
+            {% else %}
+            <th>{{ value["bcm_repr"] }}</th>
+            <th></th> 
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
     </body>
 
     <script>
-
-        var logger = '';
-
-        // functions for udating predictions
-        function update_dashboard(price_prediction){
-            $('#estimated_price').html(price_prediction);
-            }
-
-        function fetchdata()
-        {
-        // dictionary that stores user inputs
+        function handleClick(input) {
             $.getJSON({
                 type: "GET",
                 url: '{{url_for('background_process')}}',
                 data: {
-                    'pin3': ($('#pin3').is(":checked"))
+                    'pin_id': input.id,
+                    'state': input.checked
                 },
                 success: function(data){
-                    logger = data.board_state
+                    console.log(input.id, input.checked);
                 }
             });
         }
-
-        // add event listener to capture changes to wine parameters  
-        $(document).mouseup(function () {fetchdata()});
-        $(document).on('change', function () {fetchdata()});
-
-
-
     </script>
     </html>
