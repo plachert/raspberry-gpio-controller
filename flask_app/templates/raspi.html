@@ -13,24 +13,54 @@
     </head>
 
     <body>
-    <table style="width:10%">
-        {% for key, value in pins_info.items() %}
-        <tr>
-            {% if value["is_valid"] %}
-            <th>{{ value["bcm_repr"] }}</th>
-            <th>
-                <label class="switch">
-                    <input type="checkbox" id={{key}} onClick="handleClick(this)">
-                    <span class="slider round"></span>
-                </label>
-            </th>
-            {% else %}
-            <th>{{ value["bcm_repr"] }}</th>
-            <th></th> 
+
+    <div class="row">
+        <div class="column">
+          <table>
+            {% for key, value in pins_info.items() %}
+            {% if key%2 %}
+                <tr>
+                    {% if value["is_valid"] %}
+                    <th>
+                        <label class="switch" style="font-size: 1rem">
+                            <input type="checkbox" id={{key}} onClick="handleClick(this)">
+                            <span class="slider round"></span>
+                        </label>
+                    </th>
+                    <th>{{ value["bcm_repr"] }}</th>
+                    {% else %}
+                    <th>{{ value["bcm_repr"] }}</th>
+                    <th></th> 
+                    {% endif %}
+                </tr>
             {% endif %}
-        </tr>
-        {% endfor %}
-    </table>
+            {% endfor %}
+
+          </table>
+        </div>
+        <div class="column">
+          <table>
+            {% for key, value in pins_info.items() %}
+            {% if not key%2 %}
+                <tr>
+                    {% if value["is_valid"] %}
+                    <th>{{ value["bcm_repr"] }}</th>
+                    <th>
+                        <label class="switch" style="font-size: 1rem">
+                            <input type="checkbox" id={{key}} onClick="handleClick(this)">
+                            <span class="slider round"></span>
+                        </label>
+                    </th>
+                    {% else %}
+                    <th></th> 
+                    <th>{{ value["bcm_repr"] }}</th>
+                    {% endif %}
+                </tr>
+            {% endif %}
+            {% endfor %}
+          </table>
+        </div>
+      </div>
     </body>
 
     <script>
