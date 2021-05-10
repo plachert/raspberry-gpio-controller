@@ -4,6 +4,9 @@
 # RaspiWebController
 A simple one-page Flask application for controlling GPIO pins on RaspberryPi. It enables to change the state of each pin with toggle switches. 
 
+## Demo
+![Alt Text](gifs/demo.gif)
+
 ## How to use
 Running server on RaspberryPi:
 1. Create and activate virtualenv
